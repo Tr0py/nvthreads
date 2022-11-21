@@ -1,0 +1,9 @@
+[submodule "third-parties/atlas"]
+	path = third-parties/atlas
+	url = https://github.com/HewlettPackard/Atlas
+[submodule "third-parties/dthreads"]
+	path = third-parties/dthreads
+	url = https://github.com/emeryberger/dthreads
+[submodule "third-parties/mnemosyne"]
+	path = third-parties/mnemosyne
+	url = git@github.com:snalli/mnemosyne-gcc.git
