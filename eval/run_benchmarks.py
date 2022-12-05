@@ -15,7 +15,8 @@ for cpu in range(1,allcores):
 
 cores = 12
 all_configs = ['pthread', 'nvthread', 'dthread']
-btype = 'defined'
+#btype = 'defined'
+btype = 'all'
 if btype == 'phoenix':
 #	all_benchmarks = ['kmeans', 'reverse_index', 'string_match', 'word_count', 'histogram', 'linear_regression', 'matrix_multiply', 'pca']
 	all_benchmarks = ['string_match', 'word_count', 'reverse_index']
@@ -29,6 +30,7 @@ elif btype == 'defined':
 #all_benchmarks.append('dedup')
 #all_benchmarks.append('ferret')
 #all_configs = ['pthread', 'dthread']
+#all_benchmarks.remove('streamcluster')
 runs = 3
 
 for b in all_benchmarks:
@@ -70,7 +72,7 @@ if len(configs) == 0:
 
 
 for cpu in range(1,cores):
-	cmd = 'echo 1 > /sys/devices/system/cpu/cpu'+str(cpu)+'/online'		
+	cmd = 'echo 1 > /sys/devices/system/cpu/cpu'+str(cpu)+'/online'
 	os.system(cmd)
 for cpu in range(cores, allcores):
 	cmd = 'echo 0 > /sys/devices/system/cpu/cpu'+str(cpu)+'/online'
@@ -86,16 +88,19 @@ try:
 		data[benchmark] = {}
 		for config in configs:
 			data[benchmark][config] = []
-	
+
 			for n in range(0, runs):
 				print 'Running '+str(n)+': '+benchmark+'.'+config
 				os.chdir('tests/'+benchmark)
-				
+
 				start_time = os.times()[4]
-				#print 'make: make'+' eval-'+config+' NCORES='+str(cores)
+				print 'make: make'+' eval-'+config+' NCORES='+str(cores)
+				p = subprocess.Popen(['make', '-n', 'eval-'+config, 'NCORES='+str(cores)], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+				output = p.stdout.read()
+				print 'cmd: '+output
 				p = subprocess.Popen(['make', 'eval-'+config, 'NCORES='+str(cores)], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-				#output = p.stdout.read()
-				#print 'cmd: '+output
+				output = p.stdout.read()
+				print 'cmd: '+output
 				p.wait()
 
 				time = os.times()[4] - start_time
@@ -108,7 +113,7 @@ try:
 
 except:
 	print 'Aborted!'
-	
+
 print 'benchmark',
 for config in configs:
 	print '\t'+config,
