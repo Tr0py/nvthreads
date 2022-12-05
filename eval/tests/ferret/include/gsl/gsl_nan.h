@@ -23,9 +23,9 @@
 #ifdef INFINITY
 # define GSL_POSINF INFINITY
 # define GSL_NEGINF (-INFINITY)
-#elif defined(HUGE_VAL)
-# define GSL_POSINF HUGE_VAL
-# define GSL_NEGINF (-HUGE_VAL)
+#elif defined(DBL_MAX_VAL)
+# define GSL_POSINF DBL_MAX_VAL
+# define GSL_NEGINF (-DBL_MAX_VAL)
 #else
 # define GSL_POSINF (gsl_posinf())
 # define GSL_NEGINF (gsl_neginf())
