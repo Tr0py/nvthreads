@@ -1,4 +1,5 @@
-NVTHREADS_HOME=$(PWD)/../../../
+#NVTHREADS_HOME=$(PWD)/../../
+NVTHREADS_HOME=/home/z/git/nvthreads
 DTHREADS_HOME=$(NVTHREADS_HOME)/third-parties/dthreads
 
 #NCORES ?= 24
@@ -17,7 +18,9 @@ PROGS = $(addprefix $(TEST_NAME)-, $(CONFIGS))
 .PHONY: default all clean
 
 default: all
-all: $(PROGS)
+all: obj $(PROGS)
+obj:
+	mkdir obj
 clean:
 	rm -f $(PROGS) obj/* *.out
 
