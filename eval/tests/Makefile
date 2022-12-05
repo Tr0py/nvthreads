@@ -53,7 +53,7 @@ default: all
 
 all: 
 	@$(foreach APP, $(APPS), \
-            $(MAKE) -C $(APP) --no-print-directory;)
+            $(MAKE) -C $(APP) ;)
 
 clean:
 	@$(foreach APP, $(APPS), \
